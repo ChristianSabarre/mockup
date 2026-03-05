@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VitalPass — Admin</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { brand: {
+        50:"#ecfdf5",100:"#d1fae5",200:"#a7f3d0",300:"#6ee7b7",400:"#34d399",
+        500:"#10b981",600:"#059669",700:"#047857",800:"#065f46",900:"#064e3b"
+      }}}}
+    }
+  </script>
+
+  <link rel="stylesheet" href="./admin.css"/>
+</head>
+<body class="bg-white text-slate-900">
+<header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-slate-200">
+  <div class="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="h-10 w-10 rounded-2xl bg-brand-600 grid place-items-center">
+        <span class="text-white font-black">VP</span>
+      </div>
+      <div class="leading-tight">
+        <div class="font-extrabold">VitalPass APE EMR</div>
+        <div class="text-xs text-slate-500">Admin Console • Stations • Required Fields • Monitoring • Audit</div>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <select id="purpose" class="chip">
+        <option value="treatment">Purpose: Treatment</option>
+        <option value="payment">Purpose: Payment</option>
+        <option value="operations">Purpose: Operations</option>
+        <option value="other">Purpose: Other</option>
+      </select>
+      <span class="badge">ADMIN</span>
+      <button id="resetDb" class="btn btn-ghost">Reset demo DB</button>
+    </div>
+  </div>
+</header>
+
+<div class="mx-auto max-w-7xl px-4 py-6 grid grid-cols-12 gap-5">
+  <aside class="col-span-12 lg:col-span-3">
+    <div class="panel">
+      <div class="panelHead bg-gradient-to-br from-brand-50 to-white">
+        <div class="text-sm text-slate-600">Navigation</div>
+        <div class="text-xs text-slate-500 mt-1">Admin-focused controls</div>
+      </div>
+      <nav class="p-2">
+        <button class="navItem active" data-view="dashboard">Dashboard</button>
+        <button class="navItem" data-view="stations">Stations Setup</button>
+        <button class="navItem" data-view="fields">Required Fields</button>
+        <button class="navItem" data-view="users">Users & Roles</button>
+        <button class="navItem" data-view="audit">Audit Logs</button>
+      </nav>
+    </div>
+
+    <div class="panel mt-5">
+      <div class="panelHead">
+        <div class="font-extrabold">ERD mapping</div>
+        <div class="text-xs text-slate-500 mt-1">
+          stations, station_required_fields, users/roles, audit_logs
+        </div>
+      </div>
+      <div class="p-4 text-sm text-slate-700">
+        Admin defines station sequence and “required fields” per station. These rules drive Staff validation at runtime.
+      </div>
+    </div>
+  </aside>
+
+  <main class="col-span-12 lg:col-span-9 space-y-5">
+    <section id="view"></section>
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+  </main>
+</div>
+
+<!-- Modal -->
+<div id="backdrop" class="fixed inset-0 bg-slate-900/30 hidden items-center justify-center p-4 z-50">
+  <div class="modal">
+    <div class="modalHead">
+      <div id="mTitle" class="font-extrabold">Modal</div>
+      <button id="mClose" class="btn btn-ghost">Close</button>
+    </div>
+    <div id="mBody" class="p-4"></div>
+    <div class="modalFoot">
+      <button id="mCancel" class="btn btn-ghost">Cancel</button>
+      <button id="mOk" class="btn btn-primary">OK</button>
+    </div>
+  </div>
+</div>
+
+<script src="./admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VitalPass — Role Launcher</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { brand: {
+        50:"#ecfdf5",100:"#d1fae5",200:"#a7f3d0",300:"#6ee7b7",400:"#34d399",
+        500:"#10b981",600:"#059669",700:"#047857",800:"#065f46",900:"#064e3b"
+      }}}}
+    }
+  </script>
+
+  <link rel="stylesheet" href="./index.css"/>
+</head>
+<body class="bg-white text-slate-900">
+
+<header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-slate-200">
+  <div class="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between gap-3">
+    <div class="flex items-center gap-3">
+      <div class="h-10 w-10 rounded-2xl bg-brand-600 grid place-items-center">
+        <span class="text-white font-black">VP</span>
+      </div>
+      <div class="leading-tight">
+        <div class="font-extrabold">VitalPass APE EMR</div>
+        <div class="text-xs text-slate-500">Role Launcher • Demo Database • Quick Navigation</div>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <label class="chip flex items-center gap-2 cursor-pointer">
+        <input id="openNewTab" type="checkbox" class="h-4 w-4 accent-brand-600">
+        <span>Open in new tab</span>
+      </label>
+      <button id="initDb" class="btn btn-ghost">Initialize Demo DB</button>
+      <button id="resetDb" class="btn btn-primary">Reset Demo DB</button>
+    </div>
+  </div>
+</header>
+
+<main class="mx-auto max-w-7xl px-4 py-6 space-y-5">
+  <!-- Hero -->
+  <section class="panel overflow-hidden">
+    <div class="p-6 bg-gradient-to-br from-brand-50 to-white border-b border-slate-200">
+      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+        <div>
+          <div class="text-xs font-black text-slate-500 uppercase tracking-wide">Try the system by role</div>
+          <h1 class="mt-2 text-3xl font-black text-slate-900">Select a Role to Preview the UI</h1>
+          <p class="mt-2 text-sm text-slate-600 max-w-2xl">
+            This launcher helps you simulate the APE flow with role-specific screens.
+            Data is shared across pages via <b>localStorage</b> (mock Supabase).
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 w-full lg:w-auto">
+          <div class="kpi">
+            <div class="kpiLabel">Patients</div>
+            <div id="kPatients" class="kpiValue">—</div>
+          </div>
+          <div class="kpi">
+            <div class="kpiLabel">Active QR</div>
+            <div id="kQR" class="kpiValue">—</div>
+          </div>
+          <div class="kpi">
+            <div class="kpiLabel">In-progress</div>
+            <div id="kInProg" class="kpiValue">—</div>
+          </div>
+          <div class="kpi">
+            <div class="kpiLabel">Audit Logs</div>
+            <div id="kAudit" class="kpiValue">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4 rounded-2xl border border-brand-200 bg-white p-4 text-sm text-slate-700">
+        Recommended demo path: <b>Registration → Nurse → Lab → Doctor → Patient</b> (Admin is for setup + audit).
+      </div>
+    </div>
+
+    <div class="p-6">
+      <div class="flex items-center justify-between gap-3 flex-wrap">
+        <div>
+          <div class="font-extrabold">Roles</div>
+          <div class="text-xs text-slate-500 mt-1">Pick one to open its UI</div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button id="refreshStats" class="btn btn-ghost">Refresh stats</button>
+          <button id="startGuided" class="btn btn-primary">Start guided demo</button>
+        </div>
+      </div>
+
+      <!-- Role cards -->
+      <div class="mt-5 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Admin -->
+        <div class="roleCard">
+          <div class="roleTop">
+            <div class="roleIcon">A</div>
+            <div>
+              <div class="roleTitle">Admin</div>
+              <div class="roleSub">Stations • Required Fields • Users • Audit</div>
+            </div>
+          </div>
+          <div class="roleBody">
+            Configure station pipeline and validation rules (mirrors: stations, station_required_fields).
+          </div>
+          <button class="btn btn-primary w-full" data-open="admin.html">Open Admin</button>
+        </div>
+
+        <!-- Registration -->
+        <div class="roleCard">
+          <div class="roleTop">
+            <div class="roleIcon">R</div>
+            <div>
+              <div class="roleTitle">Registration</div>
+              <div class="roleSub">Register • Verify ID • Issue QR • Start APE</div>
+            </div>
+          </div>
+          <div class="roleBody">
+            Create patient profile, issue/rotate QR, start APE session, queue printing.
+          </div>
+          <button class="btn btn-primary w-full" data-open="registration.html">Open Registration</button>
+        </div>
+
+        <!-- Nurse -->
+        <div class="roleCard">
+          <div class="roleTop">
+            <div class="roleIcon">N</div>
+            <div>
+              <div class="roleTitle">Nurse</div>
+              <div class="roleSub">QR Scan • Vitals • Verify</div>
+            </div>
+          </div>
+          <div class="roleBody">
+            Capture vitals and verify station transaction (mirrors: vitals, station_transactions).
+          </div>
+          <button class="btn btn-primary w-full" data-open="nurse.html">Open Nurse</button>
+        </div>
+
+        <!-- Lab -->
+        <div class="roleCard">
+          <div class="roleTop">
+            <div class="roleIcon">L</div>
+            <div>
+              <div class="roleTitle">Lab</div>
+              <div class="roleSub">Orders • Containers • Results • Release</div>
+            </div>
+          </div>
+          <div class="roleBody">
+            Create lab orders, assign container numbers, release results.
+          </div>
+          <button class="btn btn-primary w-full" data-open="lab.html">Open Lab</button>
+        </div>
+
+        <!-- Doctor -->
+        <div class="roleCard">
+          <div class="roleTop">
+            <div class="roleIcon">D</div>
+            <div>
+              <div class="roleTitle">Doctor</div>
+              <div class="roleSub">Review • Exam • Sign • Finalize</div>
+            </div>
+          </div>
+          <div class="roleBody">
+            Review vitals/labs, record exam findings, sign and complete session.
+          </div>
+          <button class="btn btn-primary w-full" data-open="doctor.html">Open Doctor</button>
+        </div>
+
+        <!-- Patient -->
+        <div class="roleCard">
+          <div class="roleTop">
+            <div class="roleIcon">P</div>
+            <div>
+              <div class="roleTitle">Patient</div>
+              <div class="roleSub">Portal • QR • View Records • Consents</div>
+            </div>
+          </div>
+          <div class="roleBody">
+            View record summaries and sign consent (mock portal).
+          </div>
+          <button class="btn btn-primary w-full" data-open="patient.html">Open Patient Portal</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Guided flow panel -->
+  <section class="panel">
+    <div class="panelHead flex items-start justify-between gap-3">
+      <div>
+        <div class="font-extrabold">System Flow (click to open)</div>
+        <div class="text-sm text-slate-600 mt-1">A guided sequence based on your features + ERD</div>
+      </div>
+      <span class="badge">APE PIPELINE</span>
+    </div>
+    <div class="p-5">
+      <ol class="flow">
+        <li>
+          <div class="flowDot"></div>
+          <div>
+            <div class="flowTitle">Admin (Setup)</div>
+            <div class="flowSub">Define stations and required fields per station.</div>
+            <button class="miniLink" data-open="admin.html">Open Admin</button>
+          </div>
+        </li>
+
+        <li>
+          <div class="flowDot"></div>
+          <div>
+            <div class="flowTitle">Registration (Onboard)</div>
+            <div class="flowSub">Register patient → verify ID → issue QR → start APE session → print voucher/consent.</div>
+            <button class="miniLink" data-open="registration.html">Open Registration</button>
+          </div>
+        </li>
+
+        <li>
+          <div class="flowDot"></div>
+          <div>
+            <div class="flowTitle">Nurse (Vitals)</div>
+            <div class="flowSub">Scan QR → capture vitals → verify station transaction.</div>
+            <button class="miniLink" data-open="nurse.html">Open Nurse</button>
+          </div>
+        </li>
+
+        <li>
+          <div class="flowDot"></div>
+          <div>
+            <div class="flowTitle">Lab (Diagnostics)</div>
+            <div class="flowSub">Scan QR → create order → assign container → encode results → release.</div>
+            <button class="miniLink" data-open="lab.html">Open Lab</button>
+          </div>
+        </li>
+
+        <li>
+          <div class="flowDot"></div>
+          <div>
+            <div class="flowTitle">Doctor (Assessment)</div>
+            <div class="flowSub">Review record → exam findings → physician signature → complete + seal.</div>
+            <button class="miniLink" data-open="doctor.html">Open Doctor</button>
+          </div>
+        </li>
+
+        <li>
+          <div class="flowDot"></div>
+          <div>
+            <div class="flowTitle">Patient Portal (View)</div>
+            <div class="flowSub">Login → view QR + session summaries → sign consent if needed.</div>
+            <button class="miniLink" data-open="patient.html">Open Patient</button>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+</main>
+
+<script src="./index.js"></script>
+</body>
+</html>
