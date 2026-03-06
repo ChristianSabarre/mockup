@@ -35,8 +35,7 @@ function vWorklist(){
           <div class="font-extrabold">${a.registry_no}</div>
           <div class="text-xs text-slate-500 mt-1">${name}</div>
         </div>
-        <button class="btn btn-primary" onclick="open('${a.patient_id}','${a.ape_id}')">Open</button>
-      </div>`;
+<button class="btn btn-primary" onclick="openSession('${a.patient_id}','${a.ape_id}')">Open</button>      </div>`;
   }).join("");
   return card("Worklist","Select an in-progress APE session.",`<span class="badge">${sessions.length} active</span>`, `<div class="grid gap-3">${rows || `<div class="text-sm text-slate-600">No active sessions. Start one in Registration.</div>`}</div>`);
 }
@@ -142,7 +141,7 @@ function inp(label,id){
 }
 
 /* Actions */
-window.open=function(patient_id, ape_id){
+window.openSession=function(patient_id, ape_id){
   db=JSON.parse(localStorage.getItem(DB_KEY));
   if(!canAccess(patient_id)){ toast("Access grant missing for doctor (mock)."); return; }
   ctx.patient_id=patient_id; ctx.ape_id=ape_id;
