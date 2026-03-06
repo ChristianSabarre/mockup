@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VitalPass — Login</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { brand: {
+        50:"#ecfdf5",100:"#d1fae5",200:"#a7f3d0",300:"#6ee7b7",400:"#34d399",
+        500:"#10b981",600:"#059669",700:"#047857",800:"#065f46",900:"#064e3b"
+      }}}}
+    }
+  </script>
+
+  <link rel="stylesheet" href="./login.css"/>
+</head>
+<body class="bg-white text-slate-900">
+  <header class="border-b border-slate-200 bg-white/90 backdrop-blur sticky top-0 z-40">
+    <div class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="h-10 w-10 rounded-2xl bg-brand-600 grid place-items-center">
+          <span class="text-white font-black">VP</span>
+        </div>
+        <div class="leading-tight">
+          <div class="font-extrabold">VitalPass APE EMR</div>
+          <div class="text-xs text-slate-500">Standard Login • Demo Users • Role Redirect</div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <a href="./index.html" class="btn btn-ghost">Back to Launcher</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-4 py-8 grid lg:grid-cols-2 gap-6">
+    <section class="panel overflow-hidden">
+      <div class="panelHead bg-gradient-to-br from-brand-50 to-white">
+        <div class="font-extrabold text-lg">Sign in</div>
+        <div class="text-sm text-slate-600 mt-1">
+          Use your email and password. After login, you’ll be redirected to the correct role page.
+        </div>
+      </div>
+
+      <div class="p-6 space-y-4">
+        <div>
+          <label class="label">Email</label>
+          <input id="email" class="field" placeholder="e.g., nurse@clinic.local" autocomplete="username">
+        </div>
+
+        <div>
+          <label class="label">Password</label>
+          <input id="password" type="password" class="field" placeholder="••••••••" autocomplete="current-password">
+        </div>
+
+        <div class="flex items-center justify-between gap-3 flex-wrap">
+          <label class="flex items-center gap-2 text-sm text-slate-700">
+            <input id="remember" type="checkbox" class="h-4 w-4 accent-brand-600" checked>
+            Remember me (demo)
+          </label>
+
+          <button id="btnLogin" class="btn btn-primary">Login</button>
+        </div>
+
+        <div id="err" class="hidden rounded-2xl border border-rose-200 bg-rose-50 p-3 text-sm font-bold text-rose-700"></div>
+
+        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+          <div class="font-extrabold">Tip</div>
+          <div class="mt-1">
+            If your demo DB was reset, click “Initialize Demo DB” on the launcher or refresh this page—this login page auto-seeds demo users if missing.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panelHead">
+        <div class="font-extrabold text-lg">Demo credentials</div>
+        <div class="text-sm text-slate-600 mt-1">You can use these immediately.</div>
+      </div>
+
+      <div class="p-6">
+        <div class="grid gap-3">
+          <div class="cred">
+            <div>
+              <div class="credRole">Admin</div>
+              <div class="credText"><b>admin@clinic.local</b></div>
+            </div>
+            <button class="mini" data-fill="admin@clinic.local|admin123">Use</button>
+          </div>
+
+          <div class="cred">
+            <div>
+              <div class="credRole">Registration</div>
+              <div class="credText"><b>reg@clinic.local</b></div>
+            </div>
+            <button class="mini" data-fill="reg@clinic.local|reg123">Use</button>
+          </div>
+
+          <div class="cred">
+            <div>
+              <div class="credRole">Nurse</div>
+              <div class="credText"><b>nurse@clinic.local</b></div>
+            </div>
+            <button class="mini" data-fill="nurse@clinic.local|nurse123">Use</button>
+          </div>
+
+          <div class="cred">
+            <div>
+              <div class="credRole">Lab</div>
+              <div class="credText"><b>lab@clinic.local</b></div>
+            </div>
+            <button class="mini" data-fill="lab@clinic.local|lab123">Use</button>
+          </div>
+
+          <div class="cred">
+            <div>
+              <div class="credRole">Doctor</div>
+              <div class="credText"><b>doctor@clinic.local</b></div>
+            </div>
+            <button class="mini" data-fill="doctor@clinic.local|doc123">Use</button>
+          </div>
+
+          <div class="cred">
+            <div>
+              <div class="credRole">Patient</div>
+              <div class="credText"><b>patient@demo.local</b></div>
+            </div>
+            <button class="mini" data-fill="patient@demo.local|patient123">Use</button>
+          </div>
+        </div>
+
+        <div class="mt-5 rounded-2xl border border-brand-200 bg-brand-50 p-4 text-sm text-brand-900">
+          <b>Note:</b> This is a UI mock. In production, passwords must be hashed server-side (e.g., bcrypt/argon2) and sessions should be secure cookies/JWT with proper expiration.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+  <script src="./login.js"></script>
+</body>
+</html>

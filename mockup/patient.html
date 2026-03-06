@@ -24,11 +24,14 @@
       </div>
       <div class="leading-tight">
         <div class="font-extrabold">Patient Portal</div>
-        <div class="text-xs text-slate-500">Login • QR Access • View Records • Consent</div>
+        <div class="text-xs text-slate-500">Standard Login • View Records • Consents</div>
       </div>
     </div>
+
     <div class="flex items-center gap-2">
-      <button class="btn btn-primary" onclick="login()">Google Login</button>
+      <span id="userChip" class="badge hidden"></span>
+      <a id="btnLogin" href="./login.html" class="btn btn-primary">Login</a>
+      <button id="btnLogout" class="btn btn-ghost hidden">Logout</button>
       <span class="badge">PATIENT</span>
     </div>
   </div>
@@ -51,7 +54,9 @@
     <div class="panel mt-5">
       <div class="panelHead">
         <div class="font-extrabold">ERD mapping</div>
-        <div class="text-xs text-slate-500 mt-1">users/user_identities, qr_codes, ape_sessions, station_transactions, lab_results, signatures</div>
+        <div class="text-xs text-slate-500 mt-1">
+          users, user_sessions, qr_codes, ape_sessions, station_transactions, lab_results, signatures
+        </div>
       </div>
       <div class="p-4 text-sm text-slate-700">
         Patient can view record summaries and sign consent when required.
